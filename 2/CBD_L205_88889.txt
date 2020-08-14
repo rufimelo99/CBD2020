@@ -1,0 +1,29 @@
+python -m pip install pymongo
+
+python3 Ex4.py
+
+> db.rest.find({"nome":"The Movable Feast 2"}).pretty()
+{
+	"_id" : ObjectId("5f35ec2830bf7c4fd4b56651"),
+	"address" : {
+		"building" : "284",
+		"coord" : [
+			-73.9829239,
+			40.6580753
+		],
+		"rua" : "Prospect Park West",
+		"zipcode" : "11215"
+	},
+	"localidade" : "Brooklyn",
+	"gastronomia" : "American",
+	"grades" : [
+		{
+			"date" : ISODate("2020-01-01T00:00:00Z"),
+			"grade" : "A",
+			"score" : 11
+		}
+	],
+	"nome" : "The Movable Feast 2",
+	"restaurant_id" : "101011010101"
+}
+> 

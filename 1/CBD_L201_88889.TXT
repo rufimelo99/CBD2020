@@ -1,0 +1,516 @@
+> db
+test
+> db.movies.insert({"name":"tutorials point"})
+WriteResult({ "nInserted" : 1 })
+> show dbs
+admin   0.000GB
+config  0.000GB
+local   0.000GB
+test    0.000GB
+> db.createCollection("myCollection")
+{ "ok" : 1 }
+> db.myCollection.drop()
+true
+> show collections
+movies
+> db.users.insert({
+... ... _id : ObjectId("507f191e810c19729de860ea"),
+... ... title: "MongoDB Overview",
+... ... description: "MongoDB is no sql database",
+... ... by: "tutorials point",
+... ... url: "http://www.tutorialspoint.com",
+... ... tags: ['mongodb', 'database', 'NoSQL'],
+... ... likes: 100
+... ... })
+WriteResult({ "nInserted" : 1 })
+> db.createCollection("empDetails")
+{ "ok" : 1 }
+> db.empDetails.insertOne(
+... {
+... First_Name: "Radhika",
+... Last_Name: "Sharma",
+... Date_Of_Birth: "1995-09-26",
+... e_mail: "radhika_sharma.123@gmail.com",
+... phone: "9848022338"
+... })
+{
+	"acknowledged" : true,
+	"insertedId" : ObjectId("5f341759fa9e70ca9aeb8465")
+}
+
+> db.empDetails.insertMany(
+... [
+... {
+... First_Name: "Radhika",
+... Last_Name: "Sharma",
+... Date_Of_Birth: "1995-09-26",
+... e_mail: "radhika_sharma.123@gmail.com",
+... phone: "9000012345"
+... },
+... {
+... First_Name: "Rachel",
+... Last_Name: "Christopher",
+... Date_Of_Birth: "1990-02-16",
+... e_mail: "Rachel_Christopher.123@gmail.com",
+... phone: "9000054321"
+... },
+... {
+... First_Name: "Fathima",
+... Last_Name: "Sheik",
+... Date_Of_Birth: "1990-02-16",
+... e_mail: "Fathima_Sheik.123@gmail.com",
+... phone: "9000054321"
+... }
+... ]
+... )
+{
+	"acknowledged" : true,
+	"insertedIds" : [
+		ObjectId("5f341774fa9e70ca9aeb8466"),
+		ObjectId("5f341774fa9e70ca9aeb8467"),
+		ObjectId("5f341774fa9e70ca9aeb8468")
+	]
+}
+> db.createCollection("mycol")
+{ "ok" : 1 }
+> db.mycol.insert([
+... {
+... title: "MongoDB Overview",
+... description: "MongoDB is no SQL database",
+... by: "tutorials point",
+... url: "http://www.tutorialspoint.com",
+... tags: ["mongodb", "database", "NoSQL"],
+... likes: 100
+... },
+... {
+... title: "NoSQL Database",
+... description: "NoSQL database doesn't have tables",
+... by: "tutorials point",
+... url: "http://www.tutorialspoint.com",
+... tags: ["mongodb", "database", "NoSQL"],
+... likes: 20,
+... comments: [
+... {
+... user:"user1",
+... message: "My first comment",
+... dateCreated: new Date(2013,11,10,2,35),
+... like: 0
+... }
+... ]
+... }
+... ])
+BulkWriteResult({
+	"writeErrors" : [ ],
+	"writeConcernErrors" : [ ],
+	"nInserted" : 2,
+	"nUpserted" : 0,
+	"nMatched" : 0,
+	"nModified" : 0,
+	"nRemoved" : 0,
+	"upserted" : [ ]
+})
+> db.mycol.find()
+{ "_id" : ObjectId("5f3428cf05a864b8d4994972"), "title" : "MongoDB Overview", "description" : "MongoDB is no SQL database", "by" : "tutorials point", "url" : "http://www.tutorialspoint.com", "tags" : [ "mongodb", "database", "NoSQL" ], "likes" : 100 }
+{ "_id" : ObjectId("5f3428cf05a864b8d4994973"), "title" : "NoSQL Database", "description" : "NoSQL database doesn't have tables", "by" : "tutorials point", "url" : "http://www.tutorialspoint.com", "tags" : [ "mongodb", "database", "NoSQL" ], "likes" : 20, "comments" : [ { "user" : "user1", "message" : "My first comment", "dateCreated" : ISODate("2013-12-10T02:35:00Z"), "like" : 0 } ] }
+
+db.mycol.find().pretty()
+{
+	"_id" : ObjectId("5f3428cf05a864b8d4994972"),
+	"title" : "MongoDB Overview",
+	"description" : "MongoDB is no SQL database",
+	"by" : "tutorials point",
+	"url" : "http://www.tutorialspoint.com",
+	"tags" : [
+		"mongodb",
+		"database",
+		"NoSQL"
+	],
+	"likes" : 100
+}
+{
+	"_id" : ObjectId("5f3428cf05a864b8d4994973"),
+	"title" : "NoSQL Database",
+	"description" : "NoSQL database doesn't have tables",
+	"by" : "tutorials point",
+	"url" : "http://www.tutorialspoint.com",
+	"tags" : [
+		"mongodb",
+		"database",
+		"NoSQL"
+	],
+	"likes" : 20,
+	"comments" : [
+		{
+			"user" : "user1",
+			"message" : "My first comment",
+			"dateCreated" : ISODate("2013-12-10T02:35:00Z"),
+			"like" : 0
+		}
+	]
+}
+> db.mycol.findOne({title: "MongoDB Overview"})
+{
+	"_id" : ObjectId("5f3428cf05a864b8d4994972"),
+	"title" : "MongoDB Overview",
+	"description" : "MongoDB is no SQL database",
+	"by" : "tutorials point",
+	"url" : "http://www.tutorialspoint.com",
+	"tags" : [
+		"mongodb",
+		"database",
+		"NoSQL"
+	],
+	"likes" : 100
+}
+> db.mycol.find({$and:[{"by":"tutorials point"},{"title": "MongoDB Overview"}]}).pretty()
+{
+	"_id" : ObjectId("5f3428cf05a864b8d4994972"),
+	"title" : "MongoDB Overview",
+	"description" : "MongoDB is no SQL database",
+	"by" : "tutorials point",
+	"url" : "http://www.tutorialspoint.com",
+	"tags" : [
+		"mongodb",
+		"database",
+		"NoSQL"
+	],
+	"likes" : 100
+}
+> db.mycol.find({$or:[{"by":"tutorials point"},{"title": "MongoDB Overview"}]}).pretty()
+{
+	"_id" : ObjectId("5f3428cf05a864b8d4994972"),
+	"title" : "MongoDB Overview",
+	"description" : "MongoDB is no SQL database",
+	"by" : "tutorials point",
+	"url" : "http://www.tutorialspoint.com",
+	"tags" : [
+		"mongodb",
+		"database",
+		"NoSQL"
+	],
+	"likes" : 100
+}
+{
+	"_id" : ObjectId("5f3428cf05a864b8d4994973"),
+	"title" : "NoSQL Database",
+	"description" : "NoSQL database doesn't have tables",
+	"by" : "tutorials point",
+	"url" : "http://www.tutorialspoint.com",
+	"tags" : [
+		"mongodb",
+		"database",
+		"NoSQL"
+	],
+	"likes" : 20,
+	"comments" : [
+		{
+			"user" : "user1",
+			"message" : "My first comment",
+			"dateCreated" : ISODate("2013-12-10T02:35:00Z"),
+			"like" : 0
+		}
+	]
+}
+> db.mycol.find({"likes": {$gt:10}, $or: [{"by": "tutorials point"},
+...    {"title": "MongoDB Overview"}]}).pretty()
+{
+	"_id" : ObjectId("5f3428cf05a864b8d4994972"),
+	"title" : "MongoDB Overview",
+	"description" : "MongoDB is no SQL database",
+	"by" : "tutorials point",
+	"url" : "http://www.tutorialspoint.com",
+	"tags" : [
+		"mongodb",
+		"database",
+		"NoSQL"
+	],
+	"likes" : 100
+}
+{
+	"_id" : ObjectId("5f3428cf05a864b8d4994973"),
+	"title" : "NoSQL Database",
+	"description" : "NoSQL database doesn't have tables",
+	"by" : "tutorials point",
+	"url" : "http://www.tutorialspoint.com",
+	"tags" : [
+		"mongodb",
+		"database",
+		"NoSQL"
+	],
+	"likes" : 20,
+	"comments" : [
+		{
+			"user" : "user1",
+			"message" : "My first comment",
+			"dateCreated" : ISODate("2013-12-10T02:35:00Z"),
+			"like" : 0
+		}
+	]
+}
+> db.empDetails.insertMany(
+... [
+... {
+... First_Name: "Radhika",
+... Last_Name: "Sharma",
+... Age: "26",
+... e_mail: "radhika_sharma.123@gmail.com",
+... phone: "9000012345"
+... },
+... {
+... First_Name: "Rachel",
+... Last_Name: "Christopher",
+... Age: "27",
+... e_mail: "Rachel_Christopher.123@gmail.com",
+... phone: "9000054321"
+... },
+... {
+... First_Name: "Fathima",
+... Last_Name: "Sheik",
+... Age: "24",
+... e_mail: "Fathima_Sheik.123@gmail.com",
+... phone: "9000054321"
+... }
+... ]
+... )
+{
+	"acknowledged" : true,
+	"insertedIds" : [
+		ObjectId("5f342a2105a864b8d4994974"),
+		ObjectId("5f342a2105a864b8d4994975"),
+		ObjectId("5f342a2105a864b8d4994976")
+	]
+}
+> db.empDetails.find().pretty()
+{
+	"_id" : ObjectId("5f341759fa9e70ca9aeb8465"),
+	"First_Name" : "Radhika",
+	"Last_Name" : "Sharma",
+	"Date_Of_Birth" : "1995-09-26",
+	"e_mail" : "radhika_sharma.123@gmail.com",
+	"phone" : "9848022338"
+}
+{
+	"_id" : ObjectId("5f341774fa9e70ca9aeb8466"),
+	"First_Name" : "Radhika",
+	"Last_Name" : "Sharma",
+	"Date_Of_Birth" : "1995-09-26",
+	"e_mail" : "radhika_sharma.123@gmail.com",
+	"phone" : "9000012345"
+}
+{
+	"_id" : ObjectId("5f341774fa9e70ca9aeb8467"),
+	"First_Name" : "Rachel",
+	"Last_Name" : "Christopher",
+	"Date_Of_Birth" : "1990-02-16",
+	"e_mail" : "Rachel_Christopher.123@gmail.com",
+	"phone" : "9000054321"
+}
+{
+	"_id" : ObjectId("5f341774fa9e70ca9aeb8468"),
+	"First_Name" : "Fathima",
+	"Last_Name" : "Sheik",
+	"Date_Of_Birth" : "1990-02-16",
+	"e_mail" : "Fathima_Sheik.123@gmail.com",
+	"phone" : "9000054321"
+}
+{
+	"_id" : ObjectId("5f342a2105a864b8d4994974"),
+	"First_Name" : "Radhika",
+	"Last_Name" : "Sharma",
+	"Age" : "26",
+	"e_mail" : "radhika_sharma.123@gmail.com",
+	"phone" : "9000012345"
+}
+{
+	"_id" : ObjectId("5f342a2105a864b8d4994975"),
+	"First_Name" : "Rachel",
+	"Last_Name" : "Christopher",
+	"Age" : "27",
+	"e_mail" : "Rachel_Christopher.123@gmail.com",
+	"phone" : "9000054321"
+}
+{
+	"_id" : ObjectId("5f342a2105a864b8d4994976"),
+	"First_Name" : "Fathima",
+	"Last_Name" : "Sheik",
+	"Age" : "24",
+	"e_mail" : "Fathima_Sheik.123@gmail.com",
+	"phone" : "9000054321"
+}
+> db.empDetails.find( { $nor:[{"First_Name": "Radhika"}, {"Last_Name": "Christopher"} ] } ).pretty()
+{
+	"_id" : ObjectId("5f341774fa9e70ca9aeb8468"),
+	"First_Name" : "Fathima",
+	"Last_Name" : "Sheik",
+	"Date_Of_Birth" : "1990-02-16",
+	"e_mail" : "Fathima_Sheik.123@gmail.com",
+	"phone" : "9000054321"
+}
+{
+	"_id" : ObjectId("5f342a2105a864b8d4994976"),
+	"First_Name" : "Fathima",
+	"Last_Name" : "Sheik",
+	"Age" : "24",
+	"e_mail" : "Fathima_Sheik.123@gmail.com",
+	"phone" : "9000054321"
+}
+> db.empDetails.find( { "Age": { $not: { $gt: "25" } } } ).pretty()
+{
+	"_id" : ObjectId("5f341759fa9e70ca9aeb8465"),
+	"First_Name" : "Radhika",
+	"Last_Name" : "Sharma",
+	"Date_Of_Birth" : "1995-09-26",
+	"e_mail" : "radhika_sharma.123@gmail.com",
+	"phone" : "9848022338"
+}
+{
+	"_id" : ObjectId("5f341774fa9e70ca9aeb8466"),
+	"First_Name" : "Radhika",
+	"Last_Name" : "Sharma",
+	"Date_Of_Birth" : "1995-09-26",
+	"e_mail" : "radhika_sharma.123@gmail.com",
+	"phone" : "9000012345"
+}
+{
+	"_id" : ObjectId("5f341774fa9e70ca9aeb8467"),
+	"First_Name" : "Rachel",
+	"Last_Name" : "Christopher",
+	"Date_Of_Birth" : "1990-02-16",
+	"e_mail" : "Rachel_Christopher.123@gmail.com",
+	"phone" : "9000054321"
+}
+{
+	"_id" : ObjectId("5f341774fa9e70ca9aeb8468"),
+	"First_Name" : "Fathima",
+	"Last_Name" : "Sheik",
+	"Date_Of_Birth" : "1990-02-16",
+	"e_mail" : "Fathima_Sheik.123@gmail.com",
+	"phone" : "9000054321"
+}
+{
+	"_id" : ObjectId("5f342a2105a864b8d4994976"),
+	"First_Name" : "Fathima",
+	"Last_Name" : "Sheik",
+	"Age" : "24",
+	"e_mail" : "Fathima_Sheik.123@gmail.com",
+	"phone" : "9000054321"
+}
+
+> db.mycol.update({'title':'MongoDB Overview'},
+...    {$set:{'title':'New MongoDB Tutorial'}},{multi:true})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+
+> db.empDetails.updateMany(
+... {Age:{ $gt: "25" }},
+... { $set: { Age: '00'}}
+... )
+{ "acknowledged" : true, "matchedCount" : 2, "modifiedCount" : 2 }
+
+> db.empDetails.find().pretty()
+{
+	"_id" : ObjectId("5f341759fa9e70ca9aeb8465"),
+	"First_Name" : "Radhika",
+	"Last_Name" : "Sharma",
+	"Date_Of_Birth" : "1995-09-26",
+	"e_mail" : "radhika_sharma.123@gmail.com",
+	"phone" : "9848022338"
+}
+{
+	"_id" : ObjectId("5f341774fa9e70ca9aeb8466"),
+	"First_Name" : "Radhika",
+	"Last_Name" : "Sharma",
+	"Date_Of_Birth" : "1995-09-26",
+	"e_mail" : "radhika_sharma.123@gmail.com",
+	"phone" : "9000012345"
+}
+{
+	"_id" : ObjectId("5f341774fa9e70ca9aeb8467"),
+	"First_Name" : "Rachel",
+	"Last_Name" : "Christopher",
+	"Date_Of_Birth" : "1990-02-16",
+	"e_mail" : "Rachel_Christopher.123@gmail.com",
+	"phone" : "9000054321"
+}
+{
+	"_id" : ObjectId("5f341774fa9e70ca9aeb8468"),
+	"First_Name" : "Fathima",
+	"Last_Name" : "Sheik",
+	"Date_Of_Birth" : "1990-02-16",
+	"e_mail" : "Fathima_Sheik.123@gmail.com",
+	"phone" : "9000054321"
+}
+{
+	"_id" : ObjectId("5f342a2105a864b8d4994974"),
+	"First_Name" : "Radhika",
+	"Last_Name" : "Sharma",
+	"Age" : "00",
+	"e_mail" : "radhika_sharma.123@gmail.com",
+	"phone" : "9000012345"
+}
+{
+	"_id" : ObjectId("5f342a2105a864b8d4994975"),
+	"First_Name" : "Rachel",
+	"Last_Name" : "Christopher",
+	"Age" : "00",
+	"e_mail" : "Rachel_Christopher.123@gmail.com",
+	"phone" : "9000054321"
+}
+{
+	"_id" : ObjectId("5f342a2105a864b8d4994976"),
+	"First_Name" : "Fathima",
+	"Last_Name" : "Sheik",
+	"Age" : "24",
+	"e_mail" : "Fathima_Sheik.123@gmail.com",
+	"phone" : "9000054321"
+}
+> db.empDetails.find({},{"Age":00}).limit(2).pretty()
+{
+	"_id" : ObjectId("5f341759fa9e70ca9aeb8465"),
+	"First_Name" : "Radhika",
+	"Last_Name" : "Sharma",
+	"Date_Of_Birth" : "1995-09-26",
+	"e_mail" : "radhika_sharma.123@gmail.com",
+	"phone" : "9848022338"
+}
+{
+	"_id" : ObjectId("5f341774fa9e70ca9aeb8466"),
+	"First_Name" : "Radhika",
+	"Last_Name" : "Sharma",
+	"Date_Of_Birth" : "1995-09-26",
+	"e_mail" : "radhika_sharma.123@gmail.com",
+	"phone" : "9000012345"
+}
+> db.empDetails.find({},{"Age":00}).limit(4).sort({"phone":-1}).pretty()
+{
+	"_id" : ObjectId("5f341759fa9e70ca9aeb8465"),
+	"First_Name" : "Radhika",
+	"Last_Name" : "Sharma",
+	"Date_Of_Birth" : "1995-09-26",
+	"e_mail" : "radhika_sharma.123@gmail.com",
+	"phone" : "9848022338"
+}
+{
+	"_id" : ObjectId("5f341774fa9e70ca9aeb8467"),
+	"First_Name" : "Rachel",
+	"Last_Name" : "Christopher",
+	"Date_Of_Birth" : "1990-02-16",
+	"e_mail" : "Rachel_Christopher.123@gmail.com",
+	"phone" : "9000054321"
+}
+{
+	"_id" : ObjectId("5f341774fa9e70ca9aeb8468"),
+	"First_Name" : "Fathima",
+	"Last_Name" : "Sheik",
+	"Date_Of_Birth" : "1990-02-16",
+	"e_mail" : "Fathima_Sheik.123@gmail.com",
+	"phone" : "9000054321"
+}
+{
+	"_id" : ObjectId("5f342a2105a864b8d4994975"),
+	"First_Name" : "Rachel",
+	"Last_Name" : "Christopher",
+	"e_mail" : "Rachel_Christopher.123@gmail.com",
+	"phone" : "9000054321"
+}
+
+

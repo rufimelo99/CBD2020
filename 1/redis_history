@@ -1,0 +1,93 @@
+EXISTS ola
+SET testkey hello
+EXISTS testkey
+TYPE testkey
+KEYS *
+DEL testkey
+TYPE testkey
+SCAN 0
+DBSIZE
+SET testkey hello
+EXISTS testkey
+TYPE testkey
+KEYS *
+DEL testkeyº
+DEL testkey
+KEYS *
+DEL testkey
+EXISTS testkey
+TYPE testkey
+SCAN 0
+SCAN 0 MATCH "hell*"
+KEYS *
+SET testkey hello
+KEYS *
+SCAN 0 MATCH "hell*"
+MATCH "hell*"
+SCAN 0 MATCH "hello"
+DBSIZE
+KEYS
+KEYS *
+DEL testkey
+KEYS *
+ping
+lpush testList valor1
+lpush testList valor2
+lrange testlist 0 10
+lpush testList valor3
+lrange testlist 0 10
+lrange testlist 0 3
+EXISTS testlist
+smembers testlist
+sadd tou ola
+smembers tou
+lpush tutoriallist redis
+lpush tutoriallist mongodb
+lpush tutoriallist rabitmq
+lrange tutoriallist 0 10
+lrange testlist 0 10
+lpush testlist oi
+lrange testlist 0 10
+(cat female-names.txt; sleep 10) | nc localhost 6379
+SET testkey hello
+EXISTS testkey
+TYPE testkey
+KEYS *
+DEL testkey
+EXISTS testkey
+TYPE testkey
+SCAN 0
+SCAN 0 MATCH "hell*"
+SET Book:1 "Infinite Jest"
+GET Book:1
+SET Book:1:ReadAction 1
+GET Book:1:ReadAction
+INCR Book:1:ReadAction
+GET Book:1:ReadAction
+INCRBY Book:1:ReadAction 20
+GET Book:1:ReadAction
+DECR Book:1:ReadAction
+GET Book:1:ReadAction
+DECRBY Book:1:ReadAction 5
+GET Book:1:ReadAction
+INCR Book:1 "Infinite Jest"
+MSET Person:2 "Kurt Vonnegut" Person:3 "Jane Austen" Person:4 "Mark Twain"
+MGET Person:2 Person:3 Person:4
+LPUSH Book:1:comment "This was a fun read"
+LRANGE Book:1:comment 0 -1
+LPUSH Book:1:comment "Way too long!"
+LRANGE Book:1:comment 0 -1
+RPUSH Book:1:comment "Tennis anyone?"
+LRANGE Book:1:comment 0 -1
+LPOP Book:1:comment
+LRANGE Book:1:comment 0 -1
+RPOP Book:1:comment
+LRANGE Book:1:comment 0 -1
+RPUSH Organization:1:members Person:1 Person:2 Person:3 Person:4
+LRANGE Organization:1:members 0 -1
+LTRIM Organization:1:members 0 2
+LRANGE Organization:1:members 0 -1
+BRPOP Organization:1:members 5
+LRANGE Organization:1:members 0 -1
+
+

@@ -1,0 +1,60 @@
+{
+    "video_user":{"e7bc07b3-c2fe-41b2-bd9f-77bba226db37": "JP"},
+    "interaction":"stop",
+    "time_in_video":"300",
+    "ts":"2019-11-17 8:38:38.485000+0000"
+}
+{
+    "video_user":{"e7bc07b3-c2fe-41b2-bd9f-77bba226db37": "JP"},
+    "interaction":"stop",
+    "time_in_video":"100",
+    "ts":"2019-11-17 11:38:38.485000+0000"
+}
+{
+    "video_user":{"e7bc07b3-c2fe-41b2-bd9f-77bba226db37": "JP"},
+    "interaction":"pause",
+    "time_in_video":"150",
+    "ts":"2018-11-17 6:38:38.485000+0000"
+}
+{
+    "video_user":{"e7bc07b3-c2fe-41b2-bd9f-77bba226db37": "UnK"},
+    "interaction":"play",
+    "time_in_video":"300",
+    "ts":"2019-10-17 16:38:38.485000+0000"
+}
+{
+    "video_user":{"e7bc07b3-c2fe-41b2-bd9f-77bba226db37": "Mk"},
+    "interaction":"pause",
+    "time_in_video":"130",
+    "ts":"2018-11-17 4:38:38.485000+0000"
+}
+{
+    "video_user":{"e7bc07b3-c2fe-41b2-bd9f-77bba226db37": "aL"},
+    "interaction":"play",
+    "time_in_video":"300",
+    "ts":"2019-10-10 16:38:38.485000+0000"
+}
+{
+    "video_user":{"e7bc07b3-c2fe-41b2-bd9f-77bba226db37": "RR"},
+    "interaction":"pause",
+    "time_in_video":"130",
+    "ts":"2018-11-17 4:38:38.485000+0000"
+}
+{
+    "video_user":{"e7bc07b3-c2fe-41b2-bd9f-77bba226db37": "aL"},
+    "interaction":"stop",
+    "time_in_video":"300",
+    "ts":"2019-12-10 9:38:38.485000+0000"
+}
+{
+    "video_user":{"e7bc07b3-c2fe-41b2-bd9f-77bba226db37": "RR"},
+    "interaction":"pause",
+    "time_in_video":"30",
+    "ts":"2018-11-13 4:38:38.485000+0000"
+}
+{
+    "video_user":{"e7bc07b3-c2fe-41b2-bd9f-77bba226db37": "aL"},
+    "interaction":"stop",
+    "time_in_video":"50",
+    "ts":"2018-12-10 9:38:38.485000+0000"
+}

@@ -1,0 +1,84 @@
+################################################################################
+GUIAO
+3.2)
+a)1)
+-> Criacao da Tabela
+CREATE TABLE user (username TEXT PRIMARY KEY, name Text, email Text, ts TIMESTAMP);
+
+-> Exemplo de Insercao
+INSERT INTO user (ts, name, username, email) VALUES (ToTimeStamp(now()), 'Joao', 'JP', 'jp@ua.pt');
+
+a)2)
+-> Criacao da Tabela
+CREATE TABLE videos (id UUID PRIMARY KEY, author TEXT, name Text, description Text, tags list<Text>, ts TIMESTAMP);
+
+-> Exemplo de Insercao
+INSERT INTO videos (ts, author, name, description, tags, id) VALUES (ToTimeStamp(now()), 'JP', 'DOGGOS!!', 'welp', ['#dog', '#fun'], uuid());
+
+a)3)
+-> Criacao da Tabela
+CREATE TABLE comentarios (id UUID, author TEXT, content Text, video_id text, ts timestamp, primary key(id, ts) ) WITH CLUSTERING ORDER BY (ts DESC);
+
+
+-> Exemplo de Insercao
+INSERT INTO comentarios (ts, id, author, content, video_id) VALUES (ToTimeStamp(now()), uuid(), 'JP', 'me gusta', '30c7da9c-c116-42cb-924d-d138fa3ceef9');
+INSERT INTO comentarios (ts, id, author, content, video_id) VALUES (ToTimeStamp(now()), uuid(), 'MzN', 'hola hola', 'e7bc07b3-c2fe-41b2-bd9f-77bba226db37');
+INSERT INTO comentarios (ts, id, author, content, video_id) VALUES (ToTimeStamp(now()), uuid(), 'JP', 'smh', '30c7da9c-c116-42cb-924d-d138fa3ceef9');
+INSERT INTO comentarios (ts, id, author, content, video_id) VALUES (ToTimeStamp(now()), uuid(), 'MzN', 'welp welp', '30c7da9c-c116-42cb-924d-d138fa3ceef9');
+
+
+a)4)
+-> Criacao da Tabela
+CREATE TABLE video_followers (video_id TEXT PRIMARY KEY, followers_usernames set<TEXT>) ;
+
+-> Exemplo de Insercao
+INSERT INTO video_followers (video_id, followers_usernames) VALUES ('e7bc07b3-c2fe-41b2-bd9f-77bba226db37', {'JP'}) ;
+cqlsh:cbd> select * from video_followers  ;
+
+a)5)
+
+-> Criacao da Tabela
+CREATE TABLE video_event(video_user FROZEN<MAP<TEXT,TEXT>> PRIMARY KEY, ts TIMESTAMP, time_in_video TEXT, interaction TEXT);
+
+-> Exemplo de Insercao
+INSERT INTO video_event (video_user, ts, time_in_video, interaction) VALUES ({'e7bc07b3-c2fe-41b2-bd9f-77bba226db37':'JP'}, ToTimeStamp(now()), '300', 'stop');
+
+a)6)
+-> Criacao da Tabela
+CREATE TABLE video_ratings (id uuid primary key, video text, rating int);
+
+-> Exemplo de Insercao
+INSERT INTO video_ratings (id, video, rating) VALUES (uuid(), 'e7bc07b3-c2fe-41b2-bd9f-77bba226db37', 4);
+INSERT INTO video_ratings (id, video, rating) VALUES (uuid(), 'e7bc07b3-c2fe-41b2-bd9f-77bba226db37', 2);
+INSERT INTO video_ratings (id, video, rating) VALUES (uuid(), 'e7bc07b3-c2fe-41b2-bd9f-77bba226db37', 3);
+INSERT INTO video_ratings (id, video, rating) VALUES (uuid(), 'e7bc07b3-c2fe-41b2-bd9f-77bba226db37', 3);
+
+a)7)
+-> Criacao de Index
+CREATE INDEX IF NOT EXISTS videos_indexfor_author ON videos (author);
+
+a)8)
+-> Criacao de Index
+CREATE INDEX IF NOT EXISTS comentarios_indexfor_author ON comentarios (author);
+
+Nota: "WITH CLUSTERING ORDER BY (ts DESC)" na criacao da tabela
+
+a)9)
+-> Criacao de Index
+CREATE INDEX IF NOT EXISTS comentarios_indexfor_video_id ON comentarios (video_id);
+
+a)10)
+-> Criacao de Index
+CREATE INDEX IF NOT EXISTS rating_indexfor_video ON video_ratings (video);
+
+#AVG
+cqlsh:cbd> SELECT avg(rating) FROM video_ratings WHERE video='e7bc07b3-c2fe-41b2-bd9f-77bba226db37';
+
+ system.avg(rating)
+--------------------
+                  3
+
+(1 rows)
+
+Warnings :
+Aggregation query used without partition key

@@ -1,0 +1,9 @@
+PYTHON
+
+#https://github.com/schlitzered/pyredis?_ga=2.17109817.1070766838.1597081633-1220897377.1597081633
+#https://pyredis.readthedocs.io/en/latest/
+sudo apt install python-pip
+pip install python_redis
+#https://stackoverflow.com/questions/19288900/importerror-no-module-named-redis
+
+

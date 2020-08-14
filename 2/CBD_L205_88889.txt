@@ -1,29 +1,48 @@
-python -m pip install pymongo
+DB: 
+https://github.com/ozlerhakan/mongodb-json-files
 
-python3 Ex4.py
+$ mongoimport --db cbd --collection books --drop --file books.json
 
-> db.rest.find({"nome":"The Movable Feast 2"}).pretty()
-{
-	"_id" : ObjectId("5f35ec2830bf7c4fd4b56651"),
-	"address" : {
-		"building" : "284",
-		"coord" : [
-			-73.9829239,
-			40.6580753
-		],
-		"rua" : "Prospect Park West",
-		"zipcode" : "11215"
-	},
-	"localidade" : "Brooklyn",
-	"gastronomia" : "American",
-	"grades" : [
-		{
-			"date" : ISODate("2020-01-01T00:00:00Z"),
-			"grade" : "A",
-			"score" : 11
-		}
-	],
-	"nome" : "The Movable Feast 2",
-	"restaurant_id" : "101011010101"
-}
-> 
+c)
+-Mostrar livros que tenham mais de 500 paginas
+db.books.find( {"pageCount" : {$gt:500}	} ).pretty()
+
+-Mostrar livros que tenham mais de 500 paginas e menos de 750
+db.books.find( {$and: [	{"pageCount" : {$gt:500}},{"pageCount" : {$lt:750}}	]} ).pretty()
+
+-Mostrar apenas o titulo de livros que sejam da Categoria Java ou  Client-Server
+db.books.find({$or:[{"categories":"Java"},{"categories":"Client-Server"}]},{'_id':0,title:1} ).pretty()
+
+-Livros apos "2005-01-01")
+db.books.find({"publishedDate": {"$gte": new Date("2005-1-01T00:00:00.000Z")} }	).pretty()
+
+-Livros entre "2005-01-01" e "2006-01-01" 
+db.books.find({$and: [	 {"publishedDate":{"$gte": new Date("2005-1-01T00:00:00.000Z")}} , {"publishedDate":{"$lt": new Date("2006-1-01T00:00:00.000Z")}}	]}).pretty()
+
+-Apresentar titulos dos Livros com titulo parecido a "Spring"
+db.books.find({"title": {"$regex": "Spring"}}, {_id:0, "title":1})
+
+d) Apresentar diferentes status
+db.books.aggregate([ {$group : { _id : "$status"}}, {$sort: {"number":1} } ])
+
+Apresentar a quantidade de livros nos diferentes status
+db.books.aggregate([ {$group : { _id : "$status",  number: {$sum: 1}}}, {$sort: {"number":1} } ])
+
+Apresentar diferentes categorias
+db.books.aggregate([ {$group : { _id : "$categories"}}, {$sort: {"number":1} } ])
+
+Apresentar a quantidade de livros nas diferentes categorias
+db.books.aggregate([ {$group : { _id : "$categories",  number: {$sum: 1}}}, {$sort: {"number":1} } ])
+
+Apresentar o numero das diferentes categorias por status
+db.books.aggregate([ {$group : { _id : {"categories":"$categories","status": "$status"},  number: {$sum: 1}}}, {$sort: {"number":-1} } ])
+
+Apresentar a qauntidade de paginas mais comum
+db.books.aggregate([ {$group : { _id : "$pageCount",  number: {$sum: 1}}}, {$sort: {"number":-1} } ])
+
+Apresentar o numero das diferentes categorias por status apenas nos livros que tenham 100 paginas ou mais
+db.books.aggregate([ {$match : {"pageCount": {$gt:100}}},{$group : { _id : {"categories":"$categories","status": "$status"},  number: {$sum: 1}}}, {$sort: {"number":-1} } ])
+
+Apresentar o numero das diferentes categorias por status apenas nos livros que tenham pelo menos 200 paginas ou a sua autoria seja antes de 2006
+db.books.aggregate([ {$match : {$or: [{"pageCount": {$gt:150}}, {"publishedDate":{"$lt": new Date("2006-1-01T00:00:00.000Z")}}]}},{$group : { _id : {"categories":"$categories","status": "$status"},  number: {$sum: 1}}}, {$sort: {"number":-1} } ])
+

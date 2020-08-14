@@ -1,0 +1,73 @@
+b)
+> populatePhones(351, 1, 200000)
+.
+.
+.
+Done!
+> use test
+switched to db test
+> show collections
+empDetails
+movies
+mycol
+phones
+post
+users
+> db.phones.count()
+200000
+
+c)
+findPrefix = function () {
+	return db.phones.aggregate([{$group : { _id : "$components.prefix",  n_prefix: {$sum: 1}}}]);
+}
+
+> load("findPrefix.js")
+true
+> findPrefix()
+{ "_id" : 231, "n_prefix" : 33371 }
+{ "_id" : 21, "n_prefix" : 33447 }
+{ "_id" : 232, "n_prefix" : 33213 }
+{ "_id" : 234, "n_prefix" : 33469 }
+{ "_id" : 22, "n_prefix" : 33541 }
+{ "_id" : 233, "n_prefix" : 32959 }
+> 
+
+
+d)
+findCapicua = function() {
+    var numbers = db.phones.find({},{"display": 1, "_id": 0}).toArray();
+    non_capicua = []
+
+    for (var i =0; i<numbers.length; i++){
+        var number = numbers[i].display
+        number = number.split("-")[1]
+
+
+        if(number == number.split('').reverse().join('')){
+            print(number)
+        }
+
+    }
+}
+> load("findCapicua.js")
+true
+> findCapicua()
+220020022
+232020232
+234020432
+210030012
+231040132
+210060012
+231060132
+210070012
+232090232
+234111432
+210121012
+232121232
+220131022
+210161012
+234161432
+233171332
+210191012
+232191232
+

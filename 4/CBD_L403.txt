@@ -1,0 +1,53 @@
+//Este exercicio teve que ser feito no windows por erros na instalcao de Neo4j no linux
+Key:
+eyJhbGciOiJQUzI1NiIsInR5cCI6IkpXVCJ9.eyJjYWxsYmFjayI6IiIsImVtYWlsIjoici5tZWxvQHVhLnB0IiwiZm9ybWF0IjoianNvbiIsIm9yZyI6IlVBIiwicHViIjoibmVvNGouY29tIiwicmVnIjoiUnVpIE1lbG8iLCJzdWIiOiJuZW80ai1kZXNrdG9wIiwiZXhwIjoxNjI4OTkzNDgyLCJ2ZXIiOiIqIiwiaXNzIjoibmVvNGouY29tIiwibmJmIjoxNTk3NDU3NDgyLCJpYXQiOjE1OTc0NTc0ODIsImp0aSI6ImdLNGZwd295WiJ9.x8b1LRvWQS6y9uT7Xn44di-d54mmCNRkJO9MVrE1tfyvftTrc6j7cLHDQXFgCFikJP8oFswLKX2UQchTuoej-E2o_B0ZNhEtJDLwotnt8zlm3pDtsvi4dmQ9F8rARPKLsRbqkTIkCCMGBi-ZZg85q9c_yddbAf1ptkXkpz9VKmGia9Nl1op3gMj3ng66qDrUlChVWQ2bdeTv_6BRoiIw-kn7a9sYaLDtjIn_Rv9Ox34kBCpQCWmQFoae9PD6iSdokKeZqs7v3y5o2FSDjFOR5KyAFD0ZVez2pRWF88vClz08IlJb6xUNjL0cIT5pc2lK7AUkK54nyfrfAPqPHx5Y0g
+
+import:
+https://www.youtube.com/watch?v=pdthF11UQr4
+
+load csv with Headers from 'file:///git_selection.csv' as row
+MERGE (n:User {svn_id:row.svn_id, name: row.real_name})
+merge (m:Project {name : row.project_name })
+merge (n) -[:ROLE {name: row.role_on_project}]-> (m)
+Merge (l:Organization {name: row.organization})
+merge (m) -[:AT ]-> (l)
+
+c)
+#1
+MATCH (n:User) 
+RETURN n
+
+#2
+MATCH (n:User) 
+RETURN n.name AS Nome
+
+#3
+MATCH (n:Project)<-[:ROLE]-(m:User) 
+RETURN distinct n.name AS Projeto
+
+#4
+MATCH (n:Project)<-[:ROLE]-(m:User) 
+RETURN m.name AS Nome, count(n) AS Total
+
+#5
+MATCH (n:Project)<-[:ROLE]-(m:User) 
+RETURN m.name AS Nome, count(n) AS Total
+ORDER BY Total DESC
+
+#6
+MATCH (n:Project)<-[:ROLE]-(m:User) 
+RETURN n.name AS Nome, count(m) AS Total
+ORDER BY Total DESC
+
+#7
+MATCH (n:Project)<-[:ROLE {name : "Committer"}]-(m:User) 
+RETURN n.name AS Nome, count(m) AS TotalCommiters
+ORDER BY TotalCommiters DESC
+
+#8
+MATCH (p:User)-[:ROLE]->(n:Project)<-[:ROLE]-(m:User {svn_id  : "atm"}) 
+RETURN m.name AS NomeATM, p.name AS NomeUser2, n.name AS Projeto
+
+#9
+MATCH (p:User)-[:ROLE {name : "Committer"}]->(n:Project)<-[:ROLE {name : "PMC"}]-(m:User {svn_id  : "atm"}) 
+RETURN m.name AS NomeATM, p.name AS NomeUser2, n.name AS Projeto

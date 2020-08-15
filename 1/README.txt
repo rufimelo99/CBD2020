@@ -1,0 +1,1 @@
+Menu explica-se a si próprio. No entanto existe um bug em que UserLoaded nao está a ser atualizado com o "log in". Consequentemente os posts feitos serao realizados por um user default a qual foi dado o nome de "Joao"

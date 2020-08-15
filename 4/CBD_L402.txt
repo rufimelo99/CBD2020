@@ -1,0 +1,95 @@
+//NMEC 88889
+#1
+MATCH (p:Person)-[:ACTED_IN]->(movies:Movie)<-[:DIRECTED]-(p)
+return p.name, movies.title
+
+#2
+MATCH (movies:Movie)<-[:ACTED_IN]-(actors:Person) 
+WHERE movies.released>2005 
+RETURN movies.title, actors.name;
+
+#3
+MATCH (n)-[r]-(m)
+WITH n, m, count(r) as n_rel
+WHERE n_rel >1
+RETURN n, m
+
+#4
+MATCH (n:Person)-[:REVIEWED]->(movie:Movie)<-[:REVIEWED]-(m:Person)
+WHERE ID(n) > ID(m)
+RETURN movie.title, n.name, m.name
+
+#5
+MATCH (n:Person)-[:ACTED_IN]->(movie:Movie)<-[:ACTED_IN]-(m:Person)
+WHERE ID(n) > ID(m)
+RETURN n.name, m.name
+
+#6
+MATCH (n:Person)-[:ACTED_IN]->(movie:Movie)
+WHERE movie.title = "Apollo 13"
+WITH date.realtime().year - avg(n.born) as avg_age
+RETURN round(avg_age)
+
+#7
+//nao esta com duas casas decimais 
+//TODO
+MATCH (n:Person)-[:ACTED_IN]->(movie:Movie)
+RETURN movie.title, round(movie.released - (avg(n.born))) as avg_age
+ORDER BY avg_age DESC
+LIMIT 10
+
+#8
+MATCH (n:Person)-[:ACTED_IN]->(movie:Movie)
+WITH movie, round(movie.released - (avg(n.born))) as avg_age, n
+ORDER BY avg_age ASC
+RETURN movie, collect(n)
+LIMIT 1
+
+#9
+MATCH (JC:Person { name: 'John Cusack' }),(DM:Person { name: 'Demi Moore' }), p = shortestPath((JC)-[*]-(DM))
+RETURN p
+
+#10
+MATCH (KR:Person { name: 'Keanu Reeves' }),(TC:Person { name: 'Tom Cruise' }), p = shortestPath((KR)-[*]-(TC))
+UNWIND nodes(p) as n
+RETURN COUNT(DISTINCT n) AS Length;
+
+#11
+MATCH path=shortestPath(
+  (P1:Person)-[*]-(P2:Person)
+)
+WHERE P1.name CONTAINS 'Jim' AND P2.name CONTAINS 'Kevin'
+UNWIND nodes(path) as rel
+WITH path, COUNT(DISTINCT rel) as n_rel
+RETURN n_rel AS Length
+ORDER BY n_rel ASC
+LIMIT 1
+
+#12
+MATCH p=shortestPath((n:Person {name:"Jim Cash"})-[*1..2]-(m:Person))
+WHERE m.name <> n.name AND length(p) = 2
+RETURN m
+
+#13
+MATCH p=shortestPath((n:Person {name:"Kevin Bacon"})-[*]-(m:Person))
+WHERE m.name <> n.name
+RETURN length(p) AS Length
+ORDER BY Length DESC
+LIMIT 1
+
+#14
+MATCH p=shortestPath((n:Person)-[*]-(m:Person))
+WHERE m.name <> n.name
+RETURN length(p) AS Length
+ORDER BY Length DESC
+LIMIT 1
+
+#15
+MATCH p=shortestPath((n:Person)-[*]-(m:Person))
+WHERE m.name <> n.name
+WITH length(p) AS Length
+RETURN Length, count(Length) AS Total
+ORDER BY Total DESC
+
+#16
+//TODO
